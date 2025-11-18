@@ -1,0 +1,26 @@
+quarter,year,region,product_category,revenue,units_sold,customer_count,avg_deal_size,growth_rate_pct
+Q1,2023,North America,AI Software,1250000,450,125,10000,15.5
+Q1,2023,Europe,AI Software,875000,320,95,9210,12.3
+Q1,2023,Asia Pacific,AI Software,625000,230,68,9190,22.1
+Q1,2023,North America,Consulting,450000,25,25,18000,8.2
+Q1,2023,Europe,Consulting,320000,18,18,17777,10.5
+Q2,2023,North America,AI Software,1425000,510,142,10035,14.0
+Q2,2023,Europe,AI Software,975000,355,105,9285,11.4
+Q2,2023,Asia Pacific,AI Software,780000,285,85,9176,24.8
+Q2,2023,North America,Consulting,520000,28,28,18571,15.5
+Q2,2023,Europe,Consulting,365000,20,20,18250,14.1
+Q3,2023,North America,AI Software,1580000,565,155,10193,10.9
+Q3,2023,Europe,AI Software,1105000,395,118,9364,13.3
+Q3,2023,Asia Pacific,AI Software,925000,335,98,9438,18.6
+Q3,2023,North America,Consulting,595000,32,32,18593,14.4
+Q3,2023,Europe,Consulting,425000,23,23,18478,16.4
+Q4,2023,North America,AI Software,1820000,645,175,10400,15.2
+Q4,2023,Europe,AI Software,1290000,455,135,9540,16.7
+Q4,2023,Asia Pacific,AI Software,1125000,405,115,9782,21.6
+Q4,2023,North America,Consulting,685000,36,36,19027,15.1
+Q4,2023,Europe,Consulting,495000,26,26,19038,16.5
+Q1,2024,North America,AI Software,2095000,730,198,10580,15.1
+Q1,2024,Europe,AI Software,1485000,520,152,9736,15.1
+Q1,2024,Asia Pacific,AI Software,1375000,485,135,9814,120.0
+Q1,2024,North America,Consulting,795000,41,41,19390,76.7
+Q1,2024,Europe,Consulting,585000,30,30,19500,82.8

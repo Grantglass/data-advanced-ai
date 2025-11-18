@@ -6,6 +6,51 @@ This repository contains comprehensive Python Jupyter notebooks for the MBA 590 
 
 ---
 
+## ⭐ What's New in Version 1.0
+
+This repository now includes comprehensive infrastructure and support materials:
+
+- 📝 **4 Assignment Templates** - Complete starter files for all major assignments
+- 🗂️ **Sample Datasets** - Real-world data for hands-on practice
+- 🎯 **Prompt Templates Library** - Reusable templates organized by use case
+- 🛠️ **Python Utilities** - Helper functions for LLMs, data analysis, and evaluation
+- 🐳 **Docker Support** - Reproducible environment with one command
+- 🧪 **Automated Testing** - Verify all notebooks execute correctly
+- 📚 **Comprehensive Documentation** - Setup guides, FAQ, troubleshooting
+- 🔄 **CI/CD Pipeline** - GitHub Actions for quality assurance
+- 📄 **Export Scripts** - Convert notebooks to PDF, HTML, slides
+
+---
+
+## 📂 Repository Structure
+
+```
+data-advanced-ai/
+├── notebooks/          # 15 weekly Jupyter notebooks
+├── assignments/        # 4 assignment templates
+├── data/
+│   ├── samples/        # Sample datasets (CSV, JSON)
+│   └── examples/       # Example data and prompts
+├── prompt_templates/   # Reusable prompt library
+├── utils/              # Python utilities module
+│   ├── llm_helpers.py
+│   ├── data_helpers.py
+│   ├── prompt_helpers.py
+│   └── evaluation_helpers.py
+├── scripts/            # Automation scripts
+│   ├── test_notebooks.py
+│   └── export_notebooks.py
+├── .github/workflows/  # CI/CD configuration
+├── Dockerfile          # Docker container definition
+├── docker-compose.yml  # Docker orchestration
+├── requirements.txt    # Python dependencies
+├── environment.yml     # Conda environment
+├── .env.example        # API key template
+└── docs/               # Documentation files
+```
+
+---
+
 ## Course Overview
 
 This advanced course equips leaders and strategists with the knowledge and skills to effectively leverage sophisticated language models and emerging agentic systems. The curriculum provides an in-depth exploration of:
@@ -248,9 +293,98 @@ The course consists of 15 weeks, each with a dedicated Jupyter notebook containi
 
 ---
 
+##  🎯 Prompt Templates Library
+
+Access pre-built prompts for common business tasks:
+
+```python
+from prompt_templates.business_templates import swot_analysis
+
+# Fill in a template
+prompt = swot_analysis.fill(
+    context="Entering the AI automation market",
+    subject="Our AI Platform",
+    market="Mid-market B2B SaaS"
+)
+```
+
+**Available Templates**:
+- Business Analysis (SWOT, competitive analysis, market opportunities)
+- Customer Service (complaint handling, product inquiries)
+- Content Creation (product descriptions, marketing copy)
+- Data Analysis (trend analysis, anomaly detection)
+- Technical (code review, API documentation)
+
+See `prompt_templates/README.md` for full documentation.
+
+---
+
+## 🛠️ Python Utilities
+
+Helper functions for common tasks:
+
+```python
+from utils import count_tokens, estimate_cost, create_mock_llm_response
+from utils import load_sample_data, create_comparison_chart
+from utils import validate_prompt, measure_prompt_quality
+
+# Count tokens and estimate costs
+tokens = count_tokens("Your prompt here")
+cost = estimate_cost(tokens, expected_output=500, model="gpt-4")
+
+# Load sample data
+df = load_sample_data("customer_service_tickets.csv")
+
+# Validate prompts
+quality = validate_prompt("Your prompt")
+print(f"Quality score: {quality['score']}/100")
+```
+
+See inline documentation for all available functions.
+
+---
+
+## 📝 Assignments
+
+Four comprehensive assignment templates aligned with course milestones:
+
+1. **Assignment 1** (Week 8): Advanced Prompt Engineering Analysis - 20%
+2. **Assignment 2** (Week 10): Agentic Framework Application Proposal - 20%
+3. **Assignment 3** (Week 12): Tech-Ready Operating Model Design - 20%
+4. **Assignment 4** (Week 15): AI Strategic Implementation Plan - 30%
+
+Each includes:
+- Detailed instructions
+- Code scaffolding
+- Evaluation rubrics
+- Submission checklists
+
+---
+
 ## 🚀 Getting Started
 
-### Prerequisites
+### Quick Start with Docker (Recommended)
+
+The fastest way to get started:
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/data-advanced-ai.git
+cd data-advanced-ai
+
+# Copy environment template
+cp .env.example .env
+# Edit .env to add your API keys (optional)
+
+# Start with Docker
+docker-compose up
+
+# Access Jupyter at http://localhost:8888
+```
+
+### Manual Installation
+
+#### Prerequisites
 
 - Python 3.8 or higher
 - Jupyter Notebook or JupyterLab
@@ -394,13 +528,83 @@ Full references are provided within each notebook.
 
 ---
 
+## 🧪 Testing & Quality Assurance
+
+### Run Automated Tests
+
+Verify all notebooks execute correctly:
+
+```bash
+# Test all notebooks
+python scripts/test_notebooks.py
+
+# Test specific directory
+python scripts/test_notebooks.py --dir notebooks
+
+# With custom timeout
+python scripts/test_notebooks.py --timeout 300
+```
+
+### Export Notebooks
+
+Convert notebooks to various formats:
+
+```bash
+# Export to HTML
+python scripts/export_notebooks.py --formats html
+
+# Export to multiple formats
+python scripts/export_notebooks.py --formats html pdf slides
+
+# Custom output directory
+python scripts/export_notebooks.py --output my_exports
+```
+
+### Code Quality
+
+```bash
+# Format code
+black utils/ prompt_templates/
+
+# Lint code
+pylint utils/ prompt_templates/
+
+# Type checking
+mypy utils/
+```
+
+---
+
+## 📚 Documentation
+
+- **[README.md](README.md)** - This file, repository overview
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - How to contribute
+- **[FAQ.md](FAQ.md)** - Frequently asked questions
+- **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Common issues and solutions
+- **[CHANGELOG.md](CHANGELOG.md)** - Version history and updates
+- **[prompt_templates/README.md](prompt_templates/README.md)** - Prompt library guide
+
+---
+
 ## 🤝 Contributing
 
-This is a course repository. If you find errors or have suggestions for improvements:
+We welcome contributions from students, instructors, and the community!
 
-1. Open an issue describing the problem or suggestion
-2. For corrections, submit a pull request with proposed changes
-3. For questions, use the discussion forum on the course platform
+**Ways to Contribute**:
+- Report bugs or errors
+- Suggest improvements
+- Add new examples
+- Update documentation
+- Share interesting use cases
+
+See **[CONTRIBUTING.md](CONTRIBUTING.md)** for detailed guidelines.
+
+**Quick contribution workflow**:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
 ---
 

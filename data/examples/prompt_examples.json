@@ -1,0 +1,66 @@
+{
+  "prompt_examples": [
+    {
+      "id": "ex001",
+      "category": "Business Analysis",
+      "use_case": "Market Research Summary",
+      "prompt_type": "zero-shot",
+      "prompt": "Summarize the key findings from this market research report and identify the top 3 opportunities for our business.",
+      "example_input": "Market research data...",
+      "expected_output_characteristics": ["Concise summary", "Prioritized opportunities", "Data-backed insights"]
+    },
+    {
+      "id": "ex002",
+      "category": "Customer Service",
+      "use_case": "Email Response Generation",
+      "prompt_type": "role-playing",
+      "prompt": "You are a senior customer service representative known for empathy and professionalism. Draft a response to this customer complaint about a delayed shipment.",
+      "example_input": "Customer complaint text...",
+      "expected_output_characteristics": ["Empathetic tone", "Solution-oriented", "Professional language"]
+    },
+    {
+      "id": "ex003",
+      "category": "Technical Documentation",
+      "use_case": "API Documentation",
+      "prompt_type": "few-shot",
+      "prompt": "Generate API documentation following these examples:\n\nExample 1:\nEndpoint: /api/users\nMethod: GET\nDescription: Retrieves list of all users\nParameters: limit (optional), offset (optional)\nResponse: JSON array of user objects\n\nExample 2:\nEndpoint: /api/users/{id}\nMethod: GET\nDescription: Retrieves specific user by ID\nParameters: id (required) - User identifier\nResponse: JSON user object\n\nNow document this endpoint: POST /api/products",
+      "expected_output_characteristics": ["Consistent format", "Complete parameter description", "Clear response format"]
+    },
+    {
+      "id": "ex004",
+      "category": "Data Analysis",
+      "use_case": "Sales Trend Analysis",
+      "prompt_type": "chain-of-thought",
+      "prompt": "Analyze these quarterly sales figures and explain your reasoning:\n\nQ1 2023: $1.2M\nQ2 2023: $1.4M\nQ3 2023: $1.6M\nQ4 2023: $1.8M\nQ1 2024: $2.1M\n\nThink through:\n1. What is the overall trend?\n2. Calculate the growth rate\n3. Identify any anomalies\n4. What insights can we derive?",
+      "expected_output_characteristics": ["Step-by-step reasoning", "Calculations shown", "Clear conclusions"]
+    },
+    {
+      "id": "ex005",
+      "category": "Strategic Planning",
+      "use_case": "SWOT Analysis",
+      "prompt_type": "structured-output",
+      "prompt": "Conduct a SWOT analysis for a company entering the AI automation market. Provide your analysis in this format:\n\nStrengths:\n- [list 3-5 items]\n\nWeaknesses:\n- [list 3-5 items]\n\nOpportunities:\n- [list 3-5 items]\n\nThreats:\n- [list 3-5 items]",
+      "expected_output_characteristics": ["Structured format", "Specific items", "Business-relevant insights"]
+    },
+    {
+      "id": "ex006",
+      "category": "Content Creation",
+      "use_case": "Product Description",
+      "prompt_type": "multi-shot",
+      "prompt": "Write product descriptions following these examples:\n\nExample 1 (Smart Watch):\nTitle: UltraFit Pro Smart Watch\nDescription: Track your health and stay connected with the UltraFit Pro. Features include 24/7 heart rate monitoring, GPS tracking, and 7-day battery life. Water-resistant up to 50m.\nKey Features: Heart rate monitor, GPS, 7-day battery, Water-resistant\nPrice: $299\n\nExample 2 (Wireless Earbuds):\nTitle: SoundWave Elite Earbuds\nDescription: Immerse yourself in crystal-clear audio with active noise cancellation. 30-hour total battery life with charging case. Comfortable all-day wear with 3 ear tip sizes included.\nKey Features: Active noise cancellation, 30hr battery, Comfortable fit\nPrice: $179\n\nNow write a description for: Portable Bluetooth Speaker with 360° sound, waterproof (IPX7), 20-hour battery, $149",
+      "expected_output_characteristics": ["Consistent style", "Compelling copy", "Key features highlighted"]
+    }
+  ],
+  "template_categories": [
+    "Business Analysis",
+    "Customer Service",
+    "Technical Documentation",
+    "Data Analysis",
+    "Strategic Planning",
+    "Content Creation",
+    "Code Generation",
+    "Email Drafting",
+    "Meeting Summaries",
+    "Report Writing"
+  ]
+}

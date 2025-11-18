@@ -1,0 +1,16 @@
+project_id,project_name,category,status,business_value_score,technical_complexity,estimated_cost_k,estimated_benefit_k_annual,risk_level,start_date,expected_completion
+P001,Customer Service Chatbot,Agentic System,In Progress,4,3,150,450,Medium,2024-01-15,2024-06-30
+P002,Sales Forecasting AI,Analytics,Planning,3,2,80,200,Low,2024-03-01,2024-07-31
+P003,Document Processing Automation,Process Automation,In Progress,5,4,200,800,High,2023-11-01,2024-05-15
+P004,Personalized Marketing Engine,Customer Experience,Planning,4,3,120,350,Medium,2024-04-01,2024-09-30
+P005,Code Review Assistant,Developer Tools,Completed,3,2,60,120,Low,2023-09-01,2024-02-28
+P006,Supply Chain Optimization,Operations,Planning,5,5,300,1200,High,2024-05-01,2025-03-31
+P007,HR Talent Matching,Internal Operations,In Progress,3,2,75,180,Low,2024-02-01,2024-06-30
+P008,Financial Risk Assessment,Analytics,Planning,5,4,250,950,High,2024-06-01,2025-01-31
+P009,Meeting Summarization Tool,Productivity,Completed,2,1,25,65,Low,2023-12-01,2024-02-15
+P010,Product Recommendation Engine,Customer Experience,In Progress,4,3,140,420,Medium,2024-01-20,2024-07-15
+P011,Automated Testing Framework,Developer Tools,Planning,3,3,95,210,Medium,2024-04-15,2024-10-31
+P012,Sentiment Analysis Dashboard,Analytics,Completed,3,2,55,145,Low,2023-10-01,2024-01-31
+P013,Contract Analysis System,Process Automation,Planning,4,4,180,650,High,2024-05-15,2024-12-31
+P014,Virtual Training Assistant,Learning & Development,In Progress,3,2,85,195,Low,2024-02-15,2024-08-31
+P015,Predictive Maintenance AI,Operations,Planning,5,5,320,1400,High,2024-07-01,2025-06-30
