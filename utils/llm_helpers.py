@@ -238,3 +238,381 @@ def calculate_cost_comparison(
         comparison[model] = cost
 
     return comparison
+
+
+# ==================== Local LLM (Ollama) Support ====================
+
+def call_local_llm(
+    prompt: str,
+    model: str = "llama2:7b",
+    temperature: float = 0.7,
+    max_tokens: int = 500,
+    options: Optional[Dict] = None
+) -> str:
+    """
+    Call local LLM via Ollama.
+
+    Args:
+        prompt: The prompt text
+        model: Ollama model name
+        temperature: Sampling temperature
+        max_tokens: Maximum tokens to generate
+        options: Additional Ollama options
+
+    Returns:
+        str: Generated text
+
+    Example:
+        >>> response = call_local_llm("Explain AI", model="llama2:7b")
+    """
+    import requests
+    import os
+
+    base_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+
+    payload = {
+        "model": model,
+        "prompt": prompt,
+        "stream": False,
+        "options": options or {}
+    }
+
+    if temperature:
+        payload["options"]["temperature"] = temperature
+    if max_tokens:
+        payload["options"]["num_predict"] = max_tokens
+
+    try:
+        response = requests.post(
+            f"{base_url}/api/generate",
+            json=payload,
+            timeout=120
+        )
+        response.raise_for_status()
+        return response.json().get("response", "")
+    except Exception as e:
+        return f"Error calling local LLM: {str(e)}"
+
+
+def chat_local_llm(
+    messages: List[Dict],
+    model: str = "llama2:7b",
+    temperature: float = 0.7,
+    max_tokens: int = 500
+) -> str:
+    """
+    Chat with local LLM using message format.
+
+    Args:
+        messages: List of message dicts with 'role' and 'content'
+        model: Ollama model name
+        temperature: Sampling temperature
+        max_tokens: Maximum tokens to generate
+
+    Returns:
+        str: Assistant response
+
+    Example:
+        >>> messages = [
+        ...     {"role": "user", "content": "Hello!"}
+        ... ]
+        >>> response = chat_local_llm(messages)
+    """
+    import requests
+    import os
+
+    base_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+
+    payload = {
+        "model": model,
+        "messages": messages,
+        "stream": False,
+        "options": {
+            "temperature": temperature,
+            "num_predict": max_tokens
+        }
+    }
+
+    try:
+        response = requests.post(
+            f"{base_url}/api/chat",
+            json=payload,
+            timeout=120
+        )
+        response.raise_for_status()
+        return response.json().get("message", {}).get("content", "")
+    except Exception as e:
+        return f"Error calling local LLM: {str(e)}"
+
+
+def stream_local_llm(prompt: str, model: str = "llama2:7b"):
+    """
+    Stream responses from local LLM.
+
+    Args:
+        prompt: The prompt text
+        model: Ollama model name
+
+    Yields:
+        str: Text chunks
+
+    Example:
+        >>> for chunk in stream_local_llm("Write a story"):
+        ...     print(chunk, end='')
+    """
+    import requests
+    import os
+    import json
+
+    base_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+
+    payload = {
+        "model": model,
+        "prompt": prompt,
+        "stream": True
+    }
+
+    try:
+        response = requests.post(
+            f"{base_url}/api/generate",
+            json=payload,
+            stream=True,
+            timeout=120
+        )
+        response.raise_for_status()
+
+        for line in response.iter_lines():
+            if line:
+                chunk = json.loads(line)
+                if "response" in chunk:
+                    yield chunk["response"]
+    except Exception as e:
+        yield f"Error: {str(e)}"
+
+
+# ==================== Azure OpenAI Support ====================
+
+def call_azure_openai(
+    prompt: str,
+    deployment: str = "gpt-4",
+    temperature: float = 0.7,
+    max_tokens: int = 500
+) -> str:
+    """
+    Call Azure OpenAI Service.
+
+    Args:
+        prompt: The prompt text
+        deployment: Azure deployment name
+        temperature: Sampling temperature
+        max_tokens: Maximum tokens to generate
+
+    Returns:
+        str: Generated text
+
+    Example:
+        >>> response = call_azure_openai("Explain AI", deployment="gpt-4")
+    """
+    try:
+        from openai import AzureOpenAI
+        import os
+
+        client = AzureOpenAI(
+            api_key=os.getenv("AZURE_OPENAI_KEY"),
+            api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview"),
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+        )
+
+        response = client.chat.completions.create(
+            model=deployment,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=temperature,
+            max_tokens=max_tokens
+        )
+
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Error calling Azure OpenAI: {str(e)}"
+
+
+def chat_azure_openai(
+    messages: List[Dict],
+    deployment: str = "gpt-4",
+    temperature: float = 0.7,
+    max_tokens: int = 500
+) -> str:
+    """
+    Chat with Azure OpenAI using message format.
+
+    Args:
+        messages: List of message dicts
+        deployment: Azure deployment name
+        temperature: Sampling temperature
+        max_tokens: Maximum tokens
+
+    Returns:
+        str: Assistant response
+    """
+    try:
+        from openai import AzureOpenAI
+        import os
+
+        client = AzureOpenAI(
+            api_key=os.getenv("AZURE_OPENAI_KEY"),
+            api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview"),
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+        )
+
+        response = client.chat.completions.create(
+            model=deployment,
+            messages=messages,
+            temperature=temperature,
+            max_tokens=max_tokens
+        )
+
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Error calling Azure OpenAI: {str(e)}"
+
+
+def get_azure_embeddings(texts: List[str], deployment: str = "text-embedding-ada-002") -> List[List[float]]:
+    """
+    Get embeddings from Azure OpenAI.
+
+    Args:
+        texts: List of texts to embed
+        deployment: Azure embedding deployment name
+
+    Returns:
+        List of embedding vectors
+    """
+    try:
+        from openai import AzureOpenAI
+        import os
+
+        client = AzureOpenAI(
+            api_key=os.getenv("AZURE_OPENAI_KEY"),
+            api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview"),
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+        )
+
+        response = client.embeddings.create(
+            model=deployment,
+            input=texts
+        )
+
+        return [item.embedding for item in response.data]
+    except Exception as e:
+        print(f"Error getting embeddings: {str(e)}")
+        return []
+
+
+def stream_azure_openai(prompt: str, deployment: str = "gpt-4"):
+    """
+    Stream responses from Azure OpenAI.
+
+    Args:
+        prompt: The prompt text
+        deployment: Azure deployment name
+
+    Yields:
+        str: Text chunks
+    """
+    try:
+        from openai import AzureOpenAI
+        import os
+
+        client = AzureOpenAI(
+            api_key=os.getenv("AZURE_OPENAI_KEY"),
+            api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview"),
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+        )
+
+        stream = client.chat.completions.create(
+            model=deployment,
+            messages=[{"role": "user", "content": prompt}],
+            stream=True
+        )
+
+        for chunk in stream:
+            if chunk.choices[0].delta.content:
+                yield chunk.choices[0].delta.content
+    except Exception as e:
+        yield f"Error: {str(e)}"
+
+
+# ==================== Unified LLM Interface ====================
+
+def call_llm(
+    prompt: str,
+    provider: Optional[str] = None,
+    model: Optional[str] = None,
+    **kwargs
+) -> str:
+    """
+    Unified interface to call any LLM provider.
+
+    Args:
+        prompt: The prompt text
+        provider: LLM provider ('openai', 'azure', 'ollama', 'anthropic')
+                 If None, reads from LLM_PROVIDER env var
+        model: Model/deployment name (provider-specific)
+        **kwargs: Additional arguments for the provider
+
+    Returns:
+        str: Generated text
+
+    Example:
+        >>> # Use default provider from .env
+        >>> response = call_llm("Explain AI")
+        >>>
+        >>> # Specify provider
+        >>> response = call_llm("Explain AI", provider="ollama", model="llama2:7b")
+    """
+    import os
+
+    if provider is None:
+        provider = os.getenv("LLM_PROVIDER", "openai").lower()
+
+    if provider == "ollama":
+        model = model or os.getenv("OLLAMA_MODEL", "llama2:7b")
+        return call_local_llm(prompt, model=model, **kwargs)
+
+    elif provider == "azure":
+        model = model or os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME", "gpt-4")
+        return call_azure_openai(prompt, deployment=model, **kwargs)
+
+    elif provider == "openai":
+        # Use standard OpenAI client
+        try:
+            from openai import OpenAI
+            client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+            model = model or os.getenv("OPENAI_MODEL", "gpt-4")
+
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": prompt}],
+                **kwargs
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            return f"Error calling OpenAI: {str(e)}"
+
+    elif provider == "anthropic":
+        # Use Anthropic client
+        try:
+            from anthropic import Anthropic
+            client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+            model = model or os.getenv("ANTHROPIC_MODEL", "claude-3-opus-20240229")
+
+            response = client.messages.create(
+                model=model,
+                max_tokens=kwargs.get("max_tokens", 1024),
+                messages=[{"role": "user", "content": prompt}]
+            )
+            return response.content[0].text
+        except Exception as e:
+            return f"Error calling Anthropic: {str(e)}"
+
+    else:
+        return f"Unknown provider: {provider}"

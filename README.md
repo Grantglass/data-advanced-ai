@@ -363,9 +363,83 @@ Each includes:
 
 ## 🚀 Getting Started
 
-### Quick Start with Docker (Recommended)
+### Choose Your Deployment Option
 
-The fastest way to get started:
+We support **three deployment options** to fit your needs:
+
+| Option | Best For | Setup Time | Cost | Privacy |
+|--------|----------|------------|------|---------|
+| **🏢 Azure Cloud** | Enterprise, compliance needs | 15-30 min | $$ | High (VNet) |
+| **🖥️ Local LLM** | Privacy, offline, no API costs | 10-20 min | Free | Complete |
+| **☁️ OpenAI Direct** | Quick start, best quality | 5 min | $ | Standard |
+
+---
+
+### Option 1: Azure OpenAI (Enterprise Cloud) ⭐ Recommended for Organizations
+
+Enterprise-grade deployment with security, compliance, and VNet integration.
+
+```bash
+# See complete guide
+cat DEPLOY_AZURE.md
+
+# Quick deploy with Azure CLI
+az group create --name mba590-rg --location eastus
+az deployment group create \
+  --resource-group mba590-rg \
+  --template-file azure/deploy-azure-openai.bicep
+
+# Copy credentials to .env
+cp .env.example .env
+# Set LLM_PROVIDER=azure and add your Azure credentials
+```
+
+**Benefits**:
+- ✅ SOC 2, HIPAA, ISO compliance
+- ✅ Private network (VNet) integration
+- ✅ Data residency control
+- ✅ Enterprise SLA (99.9%)
+- ✅ Cost tracking and quotas
+
+📘 **[Full Azure Setup Guide →](DEPLOY_AZURE.md)**
+
+---
+
+### Option 2: Local LLM with Ollama (On-Premises) ⭐ Recommended for Privacy
+
+Run completely locally with no cloud API required.
+
+```bash
+# See complete guide
+cat DEPLOY_LOCAL.md
+
+# Quick start with Docker
+docker-compose -f docker-compose.local-llm.yml up
+
+# Or install Ollama directly
+curl -fsSL https://ollama.ai/install.sh | sh
+ollama pull llama2:7b
+
+# Start Jupyter
+cp .env.example .env
+# Set LLM_PROVIDER=ollama
+docker-compose up
+```
+
+**Benefits**:
+- ✅ Complete data privacy (nothing leaves your machine)
+- ✅ No API costs (free to use)
+- ✅ Works offline
+- ✅ Full model control
+- ✅ Open-source models
+
+📘 **[Full Local Setup Guide →](DEPLOY_LOCAL.md)**
+
+---
+
+### Option 3: OpenAI Direct (Quick Start)
+
+Fastest way to get started:
 
 ```bash
 # Clone the repository
@@ -374,7 +448,9 @@ cd data-advanced-ai
 
 # Copy environment template
 cp .env.example .env
-# Edit .env to add your API keys (optional)
+# Add your OpenAI API key to .env
+# LLM_PROVIDER=openai
+# OPENAI_API_KEY=your_key_here
 
 # Start with Docker
 docker-compose up
@@ -382,7 +458,9 @@ docker-compose up
 # Access Jupyter at http://localhost:8888
 ```
 
-### Manual Installation
+---
+
+### Manual Installation (All Options)
 
 #### Prerequisites
 
