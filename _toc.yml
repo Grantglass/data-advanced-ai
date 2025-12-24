@@ -1,0 +1,74 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+parts:
+  - caption: Course Information
+    chapters:
+      - file: docs/MBA_590_Syllabus
+        title: Course Syllabus
+      - file: docs/Final_Project
+        title: Final Project Guidelines
+
+  - caption: "Part I: Prompt Engineering Mastery"
+    chapters:
+      - file: notebooks/week01_foundations_prompt_engineering_enhanced
+        title: "Week 1: Foundations of Prompt Engineering"
+      - file: notebooks/week02_advanced_prompting_1_enhanced
+        title: "Week 2: Advanced Prompting I"
+      - file: notebooks/week03_advanced_prompting_2_enhanced
+        title: "Week 3: Advanced Prompting II"
+      - file: notebooks/week04_rag_prompt_chaining_enhanced
+        title: "Week 4: RAG & Prompt Chaining"
+
+  - caption: "Part II: Evaluation & Agentic Systems"
+    chapters:
+      - file: notebooks/week05_evaluating_llm_outputs_enhanced
+        title: "Week 5: Evaluating LLM Outputs"
+      - file: notebooks/week06_intro_agentic_frameworks_enhanced
+        title: "Week 6: Introduction to Agentic Frameworks"
+      - file: notebooks/week07_multi_agent_systems_enhanced
+        title: "Week 7: Multi-Agent Systems"
+      - file: notebooks/week08_agentic_business_applications_enhanced
+        title: "Week 8: Agentic Business Applications"
+
+  - caption: "Part III: Implementation Strategy"
+    chapters:
+      - file: notebooks/week09_tech_ready_operating_models_1_enhanced
+        title: "Week 9: Tech-Ready Operating Models I"
+      - file: notebooks/week10_tech_ready_operating_models_2_enhanced
+        title: "Week 10: Tech-Ready Operating Models II"
+      - file: notebooks/week11_governance_ethics_1_enhanced
+        title: "Week 11: Governance & Ethics I"
+      - file: notebooks/week12_governance_ethics_2_enhanced
+        title: "Week 12: Governance & Ethics II"
+
+  - caption: "Part IV: Strategic Leadership"
+    chapters:
+      - file: notebooks/week13_technology_strategy_enhanced
+        title: "Week 13: Technology Strategy"
+      - file: notebooks/week14_measuring_roi_enhanced
+        title: "Week 14: Measuring ROI"
+      - file: notebooks/week15_future_trends_enhanced
+        title: "Week 15: Future Trends"
+
+  - caption: Assignments
+    chapters:
+      - file: assignments/assignment1_prompt_engineering
+        title: "Assignment 1: Prompt Engineering"
+      - file: assignments/assignment2_agentic_framework
+        title: "Assignment 2: Agentic Framework"
+      - file: assignments/assignment3_operating_model
+        title: "Assignment 3: Operating Model"
+      - file: assignments/assignment4_strategic_plan
+        title: "Assignment 4: Strategic Plan"
+
+  - caption: Resources
+    chapters:
+      - file: docs/Question_Bank
+        title: Question Bank
+      - file: FAQ
+        title: FAQ
+      - file: TROUBLESHOOTING
+        title: Troubleshooting Guide

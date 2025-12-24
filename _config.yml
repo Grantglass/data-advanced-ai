@@ -1,0 +1,63 @@
+# Book settings
+title: "MBA 590: Advanced AI Strategy"
+author: "MBA 590 Course Team"
+copyright: "2026"
+logo: ""
+
+# Force all calculation cells to execute
+execute:
+  execute_notebooks: 'off'  # Don't execute notebooks during build (they may need API keys)
+
+# Define the name of the latex output file for PDF builds
+latex:
+  latex_documents:
+    targetname: book.tex
+
+# Add a bibtex file so that we can create citations
+bibtex_bibfiles:
+  - references.bib
+
+# Information about where the book exists on the web
+repository:
+  url: https://github.com/Grantglass/data-advanced-ai
+  path_to_book: ""
+  branch: main
+
+# Add GitHub buttons to your book
+html:
+  use_issues_button: true
+  use_repository_button: true
+  use_edit_page_button: false
+  home_page_in_navbar: true
+  baseurl: "https://grantglass.github.io/data-advanced-ai"
+  favicon: ""
+  comments:
+    hypothesis: false
+  extra_footer: |
+    <p>MBA 590: Advanced AI Strategy - Prompting and Agentic Frameworks</p>
+
+# Launch button settings
+launch_buttons:
+  notebook_interface: "classic"
+  binderhub_url: ""
+  colab_url: "https://colab.research.google.com"
+  thebe: false
+
+# Parse and render settings
+parse:
+  myst_enable_extensions:
+    - colon_fence
+    - deflist
+    - dollarmath
+    - html_admonition
+    - html_image
+    - linkify
+    - replacements
+    - smartquotes
+    - substitution
+
+# Sphinx configuration
+sphinx:
+  config:
+    html_theme_options:
+      navigation_with_keys: false
