@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  jupyter:
+    build: .
+    container_name: mba590-jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/workspace/notebooks
+      - ./data:/workspace/data
+      - ./outputs:/workspace/outputs
+      - ./assignments:/workspace/assignments
+      - ./utils:/workspace/utils
+      - ./prompt_templates:/workspace/prompt_templates
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - PYTHONPATH=/workspace
+    env_file:
+      - .env
+    command: >
+      jupyter lab
+      --ip=0.0.0.0
+      --port=8888
+      --no-browser
+      --allow-root
+      --NotebookApp.token=''
+      --NotebookApp.password=''
+    restart: unless-stopped
+
+  # Optional: Add a service for running tests
+  test:
+    build: .
+    container_name: mba590-test
+    volumes:
+      - ./notebooks:/workspace/notebooks
+      - ./data:/workspace/data
+      - ./utils:/workspace/utils
+      - ./scripts:/workspace/scripts
+    environment:
+      - PYTHONPATH=/workspace
+    command: python scripts/test_notebooks.py --dir notebooks
+    profiles:
+      - test
+
+volumes:
+  jupyter-data:
+    driver: local

@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  # Ollama service for local LLM
+  ollama:
+    image: ollama/ollama:latest
+    container_name: mba590-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    # Uncomment for GPU support (requires NVIDIA Container Toolkit)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Jupyter service connected to Ollama
+  jupyter:
+    build: .
+    container_name: mba590-jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/workspace/notebooks
+      - ./data:/workspace/data
+      - ./outputs:/workspace/outputs
+      - ./assignments:/workspace/assignments
+      - ./utils:/workspace/utils
+      - ./prompt_templates:/workspace/prompt_templates
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - PYTHONPATH=/workspace
+      - LLM_PROVIDER=ollama
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_MODEL=llama2:7b
+    depends_on:
+      ollama:
+        condition: service_healthy
+    command: >
+      jupyter lab
+      --ip=0.0.0.0
+      --port=8888
+      --no-browser
+      --allow-root
+      --NotebookApp.token=''
+      --NotebookApp.password=''
+    restart: unless-stopped
+
+  # Model initialization service (runs once to pull models)
+  ollama-init:
+    image: ollama/ollama:latest
+    container_name: mba590-ollama-init
+    volumes:
+      - ollama-data:/root/.ollama
+    depends_on:
+      ollama:
+        condition: service_healthy
+    entrypoint: /bin/sh
+    command: >
+      -c "
+      echo 'Pulling recommended models for course...' &&
+      ollama pull llama2:7b &&
+      echo 'Pulled llama2:7b successfully' &&
+      ollama pull mistral:7b &&
+      echo 'Pulled mistral:7b successfully' &&
+      echo 'Model initialization complete!' &&
+      echo 'Available models:' &&
+      ollama list
+      "
+    profiles:
+      - init
+
+volumes:
+  ollama-data:
+    driver: local

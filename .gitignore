@@ -1,0 +1,131 @@
+# MBA 590 - Python/Jupyter Project .gitignore
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+*.key
+*_secrets.json
+credentials.json
+api_keys.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+.conda/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+*.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# Jupyter Book
+_build/
+.jupyter_cache/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Data files (large datasets should not be committed)
+*.csv
+*.xlsx
+*.parquet
+*.db
+*.sqlite
+*.h5
+*.hdf5
+
+# Exception: Keep sample/example data
+!data/samples/*.csv
+!data/examples/*.json
+
+# Model files and checkpoints
+*.pkl
+*.pickle
+*.joblib
+*.pt
+*.pth
+*.ckpt
+models/weights/
+checkpoints/
+
+# Logs
+*.log
+logs/
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Documentation builds
+docs/_build/
+site/
+
+# Distribution / packaging
+.Python
+build/
+*.egg-info/

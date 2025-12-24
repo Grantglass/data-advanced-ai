@@ -1,0 +1,21 @@
+ticket_id,date,customer_name,issue_category,priority,description,sentiment,resolution_time_hours
+1001,2024-01-15,John Smith,Product Defect,High,Received damaged laptop - screen has cracks,Negative,4.5
+1002,2024-01-15,Mary Johnson,Shipping Delay,Medium,Order delayed by 3 days beyond expected delivery,Neutral,24.0
+1003,2024-01-16,Robert Brown,Account Access,High,Cannot login to account - password reset not working,Negative,2.0
+1004,2024-01-16,Sarah Williams,Billing Issue,Medium,Charged twice for same order,Negative,48.0
+1005,2024-01-17,Michael Davis,Product Question,Low,Need specifications for Model X features,Positive,1.5
+1006,2024-01-17,Jennifer Wilson,Return Request,Medium,Want to return item - doesn't fit,Neutral,8.0
+1007,2024-01-18,David Martinez,Product Defect,High,Battery not charging on new device,Negative,6.0
+1008,2024-01-18,Lisa Anderson,Shipping Delay,Low,Package tracking shows no movement for 2 days,Neutral,12.0
+1009,2024-01-19,James Taylor,Feature Request,Low,Would like dark mode in mobile app,Positive,0.5
+1010,2024-01-19,Patricia Thomas,Billing Issue,High,Subscription charged after cancellation,Negative,3.0
+1011,2024-01-20,Christopher Lee,Account Access,Medium,Need to update email address but form not working,Neutral,4.0
+1012,2024-01-20,Jessica White,Product Question,Low,Compatibility with other devices,Positive,0.5
+1013,2024-01-21,Daniel Harris,Product Defect,Medium,Software crashes on startup,Negative,16.0
+1014,2024-01-21,Nancy Clark,Return Request,High,Received wrong item - ordered blue got red,Negative,2.5
+1015,2024-01-22,Matthew Lewis,Shipping Delay,Medium,International shipment stuck in customs,Neutral,72.0
+1016,2024-01-22,Elizabeth Walker,Product Question,Low,How to use advanced features,Positive,1.0
+1017,2024-01-23,Joseph Hall,Billing Issue,Medium,Promotional code not applied to order,Neutral,6.0
+1018,2024-01-23,Susan Allen,Account Access,High,Account locked after too many login attempts,Negative,1.5
+1019,2024-01-24,Charles Young,Feature Request,Low,Request for additional color options,Positive,0.5
+1020,2024-01-24,Karen King,Product Defect,High,Overheating issue with device,Negative,8.0
