@@ -29,26 +29,35 @@ def export_notebook(notebook_path: Path, format: str, output_dir: Path) -> bool:
     output_file = output_dir / f"{notebook_path.stem}.{format}"
 
     try:
-        if format == 'html':
+        if format == "html":
             cmd = [
-                'jupyter', 'nbconvert',
-                '--to', 'html',
-                '--output', str(output_file),
-                str(notebook_path)
+                "jupyter",
+                "nbconvert",
+                "--to",
+                "html",
+                "--output",
+                str(output_file),
+                str(notebook_path),
             ]
-        elif format == 'pdf':
+        elif format == "pdf":
             cmd = [
-                'jupyter', 'nbconvert',
-                '--to', 'pdf',
-                '--output', str(output_file),
-                str(notebook_path)
+                "jupyter",
+                "nbconvert",
+                "--to",
+                "pdf",
+                "--output",
+                str(output_file),
+                str(notebook_path),
             ]
-        elif format == 'slides':
+        elif format == "slides":
             cmd = [
-                'jupyter', 'nbconvert',
-                '--to', 'slides',
-                '--output', str(output_file),
-                str(notebook_path)
+                "jupyter",
+                "nbconvert",
+                "--to",
+                "slides",
+                "--output",
+                str(output_file),
+                str(notebook_path),
             ]
         else:
             print(f"Unsupported format: {format}")
@@ -66,11 +75,7 @@ def export_notebook(notebook_path: Path, format: str, output_dir: Path) -> bool:
         return False
 
 
-def export_all_notebooks(
-    notebooks_dir: Path,
-    formats: list,
-    output_base_dir: Path
-):
+def export_all_notebooks(notebooks_dir: Path, formats: list, output_base_dir: Path):
     """Export all notebooks to specified formats."""
     notebooks = list(notebooks_dir.glob("*.ipynb"))
 
@@ -96,10 +101,7 @@ def export_all_notebooks(
 def main():
     parser = argparse.ArgumentParser(description="Export Jupyter notebooks")
     parser.add_argument(
-        "--dir",
-        type=str,
-        default="notebooks",
-        help="Directory containing notebooks"
+        "--dir", type=str, default="notebooks", help="Directory containing notebooks"
     )
     parser.add_argument(
         "--formats",
@@ -107,13 +109,10 @@ def main():
         nargs="+",
         default=["html"],
         choices=["html", "pdf", "slides"],
-        help="Output formats"
+        help="Output formats",
     )
     parser.add_argument(
-        "--output",
-        type=str,
-        default="exports",
-        help="Output directory"
+        "--output", type=str, default="exports", help="Output directory"
     )
 
     args = parser.parse_args()

@@ -33,7 +33,14 @@ Tone: Professional, warm, empathetic, and solution-focused
 Length: 150-250 words
 
 Write the email response:""",
-    variables=["company_name", "company_values", "customer_name", "issue_description", "sentiment", "previous_context"],
+    variables=[
+        "company_name",
+        "company_values",
+        "customer_name",
+        "issue_description",
+        "sentiment",
+        "previous_context",
+    ],
     examples=[
         {
             "company_name": "TechGear Pro",
@@ -41,9 +48,9 @@ Write the email response:""",
             "customer_name": "Sarah Johnson",
             "issue_description": "Received a laptop with a cracked screen",
             "sentiment": "Frustrated but polite",
-            "previous_context": "First-time customer, ordered 5 days ago"
+            "previous_context": "First-time customer, ordered 5 days ago",
         }
-    ]
+    ],
 )
 
 library.add(complaint_response)
@@ -82,9 +89,9 @@ Provide a helpful, informative response that:
         {
             "product_name": "SmartHome Hub Max",
             "customer_question": "Can I control my existing smart devices with this hub?",
-            "product_details": "Supports Zigbee, Z-Wave, Wi-Fi, Bluetooth. Compatible with 5000+ devices. Works with Alexa, Google Home, Apple HomeKit."
+            "product_details": "Supports Zigbee, Z-Wave, Wi-Fi, Bluetooth. Compatible with 5000+ devices. Works with Alexa, Google Home, Apple HomeKit.",
         }
-    ]
+    ],
 )
 
 library.add(product_inquiry)
@@ -134,7 +141,14 @@ Write a response that:
 - Includes a gesture of goodwill (if appropriate)
 
 Provide your analysis for each step, then the final response.""",
-    variables=["customer_name", "customer_tier", "issue", "previous_attempts", "impact", "emotion_level"],
+    variables=[
+        "customer_name",
+        "customer_tier",
+        "issue",
+        "previous_attempts",
+        "impact",
+        "emotion_level",
+    ],
     examples=[
         {
             "customer_name": "David Chen",
@@ -142,17 +156,13 @@ Provide your analysis for each step, then the final response.""",
             "issue": "Critical service outage during product launch - 3 hours downtime",
             "previous_attempts": "Standard troubleshooting, tier 1 and tier 2 support",
             "impact": "Lost revenue, damaged reputation with their customers",
-            "emotion_level": "Very frustrated, considering alternatives"
+            "emotion_level": "Very frustrated, considering alternatives",
         }
-    ]
+    ],
 )
 
 library.add(escalation_handler)
 
 
 # Export all templates
-__all__ = [
-    "complaint_response",
-    "product_inquiry",
-    "escalation_handler"
-]
+__all__ = ["complaint_response", "product_inquiry", "escalation_handler"]

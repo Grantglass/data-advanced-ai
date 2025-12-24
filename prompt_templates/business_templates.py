@@ -39,9 +39,9 @@ For each item, provide a brief explanation of why it matters and its potential i
         {
             "context": "A company planning to launch an AI-powered customer service platform",
             "subject": "SmartSupport AI Platform",
-            "market": "Mid-market B2B SaaS companies"
+            "market": "Mid-market B2B SaaS companies",
         }
-    ]
+    ],
 )
 
 library.add(swot_analysis)
@@ -87,9 +87,9 @@ Provide detailed reasoning for each step.""",
         {
             "our_company": "AI Automation startup focusing on SMBs",
             "competitors": "Zapier, Make.com, UiPath",
-            "market_segment": "SMB workflow automation"
+            "market_segment": "SMB workflow automation",
         }
-    ]
+    ],
 )
 
 library.add(competitive_analysis)
@@ -139,15 +139,20 @@ Analyze across these dimensions:
    - Key success factors
    - Critical risks to mitigate
    - Recommended next steps""",
-    variables=["opportunity_description", "target_market", "market_size", "growth_rate"],
+    variables=[
+        "opportunity_description",
+        "target_market",
+        "market_size",
+        "growth_rate",
+    ],
     examples=[
         {
             "opportunity_description": "AI-powered contract analysis for legal teams",
             "target_market": "Mid-size law firms (50-200 lawyers)",
             "market_size": "$2.5B annually",
-            "growth_rate": "18% CAGR"
+            "growth_rate": "18% CAGR",
         }
-    ]
+    ],
 )
 
 library.add(market_opportunity)
@@ -218,9 +223,9 @@ Develop the business case with these sections:
         {
             "initiative_name": "Enterprise-wide AI Training Program",
             "objective": "Build AI literacy across 500 employees",
-            "investment": "$250,000"
+            "investment": "$250,000",
         }
-    ]
+    ],
 )
 
 library.add(business_case)
@@ -231,5 +236,5 @@ __all__ = [
     "swot_analysis",
     "competitive_analysis",
     "market_opportunity",
-    "business_case"
+    "business_case",
 ]

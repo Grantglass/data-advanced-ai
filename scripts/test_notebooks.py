@@ -29,17 +29,17 @@ def test_notebook(notebook_path: Path, timeout: int = 600) -> Dict:
         "path": str(notebook_path),
         "success": False,
         "error": None,
-        "cells_executed": 0
+        "cells_executed": 0,
     }
 
     try:
-        with open(notebook_path, 'r', encoding='utf-8') as f:
+        with open(notebook_path, "r", encoding="utf-8") as f:
             nb = nbformat.read(f, as_version=4)
 
-        ep = ExecutePreprocessor(timeout=timeout, kernel_name='python3')
+        ep = ExecutePreprocessor(timeout=timeout, kernel_name="python3")
 
         # Execute the notebook
-        ep.preprocess(nb, {'metadata': {'path': str(notebook_path.parent)}})
+        ep.preprocess(nb, {"metadata": {"path": str(notebook_path.parent)}})
 
         result["success"] = True
         result["cells_executed"] = len(nb.cells)
@@ -51,9 +51,7 @@ def test_notebook(notebook_path: Path, timeout: int = 600) -> Dict:
 
 
 def test_all_notebooks(
-    notebooks_dir: Path,
-    pattern: str = "*.ipynb",
-    exclude: List[str] = None
+    notebooks_dir: Path, pattern: str = "*.ipynb", exclude: List[str] = None
 ) -> List[Dict]:
     """
     Test all notebooks in a directory.
@@ -99,9 +97,9 @@ def print_summary(results: List[Dict]):
     passed = sum(1 for r in results if r["success"])
     failed = total - passed
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("TEST SUMMARY")
-    print("="*60)
+    print("=" * 60)
     print(f"Total notebooks: {total}")
     print(f"Passed: {passed}")
     print(f"Failed: {failed}")
@@ -114,34 +112,22 @@ def print_summary(results: List[Dict]):
                 print(f"  - {r['notebook']}")
                 print(f"    Error: {r['error'][:100]}...")
 
-    print("="*60)
+    print("=" * 60)
 
 
 def main():
     parser = argparse.ArgumentParser(description="Test Jupyter notebooks")
     parser.add_argument(
-        "--dir",
-        type=str,
-        default="notebooks",
-        help="Directory containing notebooks"
+        "--dir", type=str, default="notebooks", help="Directory containing notebooks"
     )
     parser.add_argument(
-        "--pattern",
-        type=str,
-        default="*.ipynb",
-        help="Glob pattern for notebook files"
+        "--pattern", type=str, default="*.ipynb", help="Glob pattern for notebook files"
     )
     parser.add_argument(
-        "--timeout",
-        type=int,
-        default=600,
-        help="Execution timeout in seconds"
+        "--timeout", type=int, default=600, help="Execution timeout in seconds"
     )
     parser.add_argument(
-        "--exclude",
-        type=str,
-        nargs="+",
-        help="Notebook names to exclude"
+        "--exclude", type=str, nargs="+", help="Notebook names to exclude"
     )
 
     args = parser.parse_args()
@@ -157,9 +143,7 @@ def main():
 
     # Run tests
     results = test_all_notebooks(
-        notebooks_dir,
-        pattern=args.pattern,
-        exclude=args.exclude or []
+        notebooks_dir, pattern=args.pattern, exclude=args.exclude or []
     )
 
     # Print summary

@@ -33,9 +33,7 @@ def count_tokens(text: str, model: str = "gpt-4") -> int:
 
 
 def estimate_cost(
-    input_tokens: int,
-    output_tokens: int,
-    model: str = "gpt-4"
+    input_tokens: int, output_tokens: int, model: str = "gpt-4"
 ) -> Dict[str, float]:
     """
     Estimate the cost of an LLM API call.
@@ -72,14 +70,12 @@ def estimate_cost(
         "input_cost": round(input_cost, 4),
         "output_cost": round(output_cost, 4),
         "total_cost": round(input_cost + output_cost, 4),
-        "model": model
+        "model": model,
     }
 
 
 def create_mock_llm_response(
-    prompt: str,
-    response_type: str = "generic",
-    delay: float = 0.5
+    prompt: str, response_type: str = "generic", delay: float = 0.5
 ) -> Dict:
     """
     Create a mock LLM response for testing without API calls.
@@ -126,7 +122,7 @@ This is a creative response demonstrating:
 - Structured information delivery
 - Professional tone with personality
 
-The actual LLM would provide much more detailed and contextually relevant content."""
+The actual LLM would provide much more detailed and contextually relevant content.""",
     }
 
     content = responses.get(response_type, responses["generic"])
@@ -137,20 +133,13 @@ The actual LLM would provide much more detailed and contextually relevant conten
         "tokens": {
             "input": count_tokens(prompt),
             "output": count_tokens(content),
-            "total": count_tokens(prompt) + count_tokens(content)
+            "total": count_tokens(prompt) + count_tokens(content),
         },
-        "cost": estimate_cost(
-            count_tokens(prompt),
-            count_tokens(content)
-        )
+        "cost": estimate_cost(count_tokens(prompt), count_tokens(content)),
     }
 
 
-def format_chat_message(
-    role: str,
-    content: str,
-    name: Optional[str] = None
-) -> Dict:
+def format_chat_message(role: str, content: str, name: Optional[str] = None) -> Dict:
     """
     Format a message for chat-based LLM APIs.
 
@@ -167,10 +156,7 @@ def format_chat_message(
         >>> print(msg)
         {'role': 'user', 'content': 'Hello!'}
     """
-    message = {
-        "role": role,
-        "content": content
-    }
+    message = {"role": role, "content": content}
 
     if name:
         message["name"] = name
@@ -181,7 +167,7 @@ def format_chat_message(
 def create_chat_conversation(
     system_prompt: str,
     user_messages: List[str],
-    assistant_responses: Optional[List[str]] = None
+    assistant_responses: Optional[List[str]] = None,
 ) -> List[Dict]:
     """
     Create a conversation history for chat models.
@@ -215,9 +201,7 @@ def create_chat_conversation(
 
 
 def calculate_cost_comparison(
-    prompt: str,
-    expected_output_tokens: int,
-    models: List[str]
+    prompt: str, expected_output_tokens: int, models: List[str]
 ) -> Dict:
     """
     Compare costs across different models.
@@ -242,12 +226,13 @@ def calculate_cost_comparison(
 
 # ==================== Local LLM (Ollama) Support ====================
 
+
 def call_local_llm(
     prompt: str,
     model: str = "llama2:7b",
     temperature: float = 0.7,
     max_tokens: int = 500,
-    options: Optional[Dict] = None
+    options: Optional[Dict] = None,
 ) -> str:
     """
     Call local LLM via Ollama.
@@ -274,7 +259,7 @@ def call_local_llm(
         "model": model,
         "prompt": prompt,
         "stream": False,
-        "options": options or {}
+        "options": options or {},
     }
 
     if temperature:
@@ -283,11 +268,7 @@ def call_local_llm(
         payload["options"]["num_predict"] = max_tokens
 
     try:
-        response = requests.post(
-            f"{base_url}/api/generate",
-            json=payload,
-            timeout=120
-        )
+        response = requests.post(f"{base_url}/api/generate", json=payload, timeout=120)
         response.raise_for_status()
         return response.json().get("response", "")
     except Exception as e:
@@ -298,7 +279,7 @@ def chat_local_llm(
     messages: List[Dict],
     model: str = "llama2:7b",
     temperature: float = 0.7,
-    max_tokens: int = 500
+    max_tokens: int = 500,
 ) -> str:
     """
     Chat with local LLM using message format.
@@ -327,18 +308,11 @@ def chat_local_llm(
         "model": model,
         "messages": messages,
         "stream": False,
-        "options": {
-            "temperature": temperature,
-            "num_predict": max_tokens
-        }
+        "options": {"temperature": temperature, "num_predict": max_tokens},
     }
 
     try:
-        response = requests.post(
-            f"{base_url}/api/chat",
-            json=payload,
-            timeout=120
-        )
+        response = requests.post(f"{base_url}/api/chat", json=payload, timeout=120)
         response.raise_for_status()
         return response.json().get("message", {}).get("content", "")
     except Exception as e:
@@ -366,18 +340,11 @@ def stream_local_llm(prompt: str, model: str = "llama2:7b"):
 
     base_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 
-    payload = {
-        "model": model,
-        "prompt": prompt,
-        "stream": True
-    }
+    payload = {"model": model, "prompt": prompt, "stream": True}
 
     try:
         response = requests.post(
-            f"{base_url}/api/generate",
-            json=payload,
-            stream=True,
-            timeout=120
+            f"{base_url}/api/generate", json=payload, stream=True, timeout=120
         )
         response.raise_for_status()
 
@@ -392,11 +359,12 @@ def stream_local_llm(prompt: str, model: str = "llama2:7b"):
 
 # ==================== Azure OpenAI Support ====================
 
+
 def call_azure_openai(
     prompt: str,
     deployment: str = "gpt-4",
     temperature: float = 0.7,
-    max_tokens: int = 500
+    max_tokens: int = 500,
 ) -> str:
     """
     Call Azure OpenAI Service.
@@ -420,14 +388,14 @@ def call_azure_openai(
         client = AzureOpenAI(
             api_key=os.getenv("AZURE_OPENAI_KEY"),
             api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview"),
-            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
         )
 
         response = client.chat.completions.create(
             model=deployment,
             messages=[{"role": "user", "content": prompt}],
             temperature=temperature,
-            max_tokens=max_tokens
+            max_tokens=max_tokens,
         )
 
         return response.choices[0].message.content
@@ -439,7 +407,7 @@ def chat_azure_openai(
     messages: List[Dict],
     deployment: str = "gpt-4",
     temperature: float = 0.7,
-    max_tokens: int = 500
+    max_tokens: int = 500,
 ) -> str:
     """
     Chat with Azure OpenAI using message format.
@@ -460,14 +428,14 @@ def chat_azure_openai(
         client = AzureOpenAI(
             api_key=os.getenv("AZURE_OPENAI_KEY"),
             api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview"),
-            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
         )
 
         response = client.chat.completions.create(
             model=deployment,
             messages=messages,
             temperature=temperature,
-            max_tokens=max_tokens
+            max_tokens=max_tokens,
         )
 
         return response.choices[0].message.content
@@ -475,7 +443,9 @@ def chat_azure_openai(
         return f"Error calling Azure OpenAI: {str(e)}"
 
 
-def get_azure_embeddings(texts: List[str], deployment: str = "text-embedding-ada-002") -> List[List[float]]:
+def get_azure_embeddings(
+    texts: List[str], deployment: str = "text-embedding-ada-002"
+) -> List[List[float]]:
     """
     Get embeddings from Azure OpenAI.
 
@@ -493,13 +463,10 @@ def get_azure_embeddings(texts: List[str], deployment: str = "text-embedding-ada
         client = AzureOpenAI(
             api_key=os.getenv("AZURE_OPENAI_KEY"),
             api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview"),
-            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
         )
 
-        response = client.embeddings.create(
-            model=deployment,
-            input=texts
-        )
+        response = client.embeddings.create(model=deployment, input=texts)
 
         return [item.embedding for item in response.data]
     except Exception as e:
@@ -525,13 +492,13 @@ def stream_azure_openai(prompt: str, deployment: str = "gpt-4"):
         client = AzureOpenAI(
             api_key=os.getenv("AZURE_OPENAI_KEY"),
             api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview"),
-            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
         )
 
         stream = client.chat.completions.create(
             model=deployment,
             messages=[{"role": "user", "content": prompt}],
-            stream=True
+            stream=True,
         )
 
         for chunk in stream:
@@ -543,11 +510,9 @@ def stream_azure_openai(prompt: str, deployment: str = "gpt-4"):
 
 # ==================== Unified LLM Interface ====================
 
+
 def call_llm(
-    prompt: str,
-    provider: Optional[str] = None,
-    model: Optional[str] = None,
-    **kwargs
+    prompt: str, provider: Optional[str] = None, model: Optional[str] = None, **kwargs
 ) -> str:
     """
     Unified interface to call any LLM provider.
@@ -586,13 +551,12 @@ def call_llm(
         # Use standard OpenAI client
         try:
             from openai import OpenAI
+
             client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
             model = model or os.getenv("OPENAI_MODEL", "gpt-4")
 
             response = client.chat.completions.create(
-                model=model,
-                messages=[{"role": "user", "content": prompt}],
-                **kwargs
+                model=model, messages=[{"role": "user", "content": prompt}], **kwargs
             )
             return response.choices[0].message.content
         except Exception as e:
@@ -602,13 +566,14 @@ def call_llm(
         # Use Anthropic client
         try:
             from anthropic import Anthropic
+
             client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
             model = model or os.getenv("ANTHROPIC_MODEL", "claude-3-opus-20240229")
 
             response = client.messages.create(
                 model=model,
                 max_tokens=kwargs.get("max_tokens", 1024),
-                messages=[{"role": "user", "content": prompt}]
+                messages=[{"role": "user", "content": prompt}],
             )
             return response.content[0].text
         except Exception as e:

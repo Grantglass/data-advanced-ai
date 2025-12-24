@@ -16,45 +16,55 @@ def enhance_markdown_cell(cell_source):
     Enhance markdown cells with better formatting and visual elements.
     """
     # Add visual hierarchy to headers
-    if cell_source.startswith('# ') and not any(emoji in cell_source for emoji in ['📘', '🎯', '💡', '📊', '🔧']):
+    if cell_source.startswith("# ") and not any(
+        emoji in cell_source for emoji in ["📘", "🎯", "💡", "📊", "🔧"]
+    ):
         # Add topic emoji to main headers
-        if 'Week' in cell_source[:50]:
-            cell_source = cell_source.replace('# ', '# 📘 ', 1)
+        if "Week" in cell_source[:50]:
+            cell_source = cell_source.replace("# ", "# 📘 ", 1)
 
     # Enhance learning objectives
-    if 'Learning Objectives' in cell_source:
-        if '- [ ]' not in cell_source:
+    if "Learning Objectives" in cell_source:
+        if "- [ ]" not in cell_source:
             # Convert bullet points to checkboxes
-            cell_source = cell_source.replace('\n- ', '\n- [ ] ')
-            cell_source = cell_source.replace('## Learning Objectives', '## 🎯 Learning Objectives')
+            cell_source = cell_source.replace("\n- ", "\n- [ ] ")
+            cell_source = cell_source.replace(
+                "## Learning Objectives", "## 🎯 Learning Objectives"
+            )
 
     # Add callout boxes where appropriate
-    if 'important' in cell_source.lower() or 'key' in cell_source.lower():
-        if not cell_source.startswith('>'):
+    if "important" in cell_source.lower() or "key" in cell_source.lower():
+        if not cell_source.startswith(">"):
             # Look for sentences with "important" or "key" and make them callouts
-            lines = cell_source.split('\n')
+            lines = cell_source.split("\n")
             enhanced_lines = []
             for line in lines:
-                if ('important' in line.lower() or 'key concept' in line.lower()) and not line.startswith('>'):
-                    enhanced_lines.append(f"> 💡 **Key Insight**: {line.strip('- ').strip()}")
+                if (
+                    "important" in line.lower() or "key concept" in line.lower()
+                ) and not line.startswith(">"):
+                    enhanced_lines.append(
+                        f"> 💡 **Key Insight**: {line.strip('- ').strip()}"
+                    )
                 else:
                     enhanced_lines.append(line)
-            cell_source = '\n'.join(enhanced_lines)
+            cell_source = "\n".join(enhanced_lines)
 
     # Enhance discussion questions
-    if 'Discussion Question' in cell_source or 'Consider the following' in cell_source:
-        cell_source = cell_source.replace('## Discussion Question', '## 🤔 Discussion Question')
-        cell_source = cell_source.replace('## Discussion', '## 🤔 Discussion')
+    if "Discussion Question" in cell_source or "Consider the following" in cell_source:
+        cell_source = cell_source.replace(
+            "## Discussion Question", "## 🤔 Discussion Question"
+        )
+        cell_source = cell_source.replace("## Discussion", "## 🤔 Discussion")
 
     # Enhance key takeaways
-    if 'Key Takeaway' in cell_source or 'Summary' in cell_source:
-        cell_source = cell_source.replace('## Key Takeaway', '## 📌 Key Takeaways')
-        cell_source = cell_source.replace('## Summary', '## 📌 Summary')
+    if "Key Takeaway" in cell_source or "Summary" in cell_source:
+        cell_source = cell_source.replace("## Key Takeaway", "## 📌 Key Takeaways")
+        cell_source = cell_source.replace("## Summary", "## 📌 Summary")
 
     # Add checkboxes to hands-on sections
-    if 'YOUR TURN' in cell_source or 'Exercise' in cell_source:
-        cell_source = cell_source.replace('## Exercise', '## 🔧 Hands-On Exercise')
-        cell_source = cell_source.replace('YOUR TURN', '🎯 YOUR TURN')
+    if "YOUR TURN" in cell_source or "Exercise" in cell_source:
+        cell_source = cell_source.replace("## Exercise", "## 🔧 Hands-On Exercise")
+        cell_source = cell_source.replace("YOUR TURN", "🎯 YOUR TURN")
 
     return cell_source
 
@@ -67,8 +77,8 @@ def enhance_code_cell(cell_source):
     # (we'd need AI to understand what the code does)
     # Just ensure good formatting
 
-    lines = cell_source.split('\n')
-    if lines and not lines[0].startswith('#'):
+    lines = cell_source.split("\n")
+    if lines and not lines[0].startswith("#"):
         # Add a placeholder for manual enhancement
         enhanced = f"# 🎯 GOAL: [Describe what this code does]\n# Example input: [Show example]\n# Expected output: [Show expected result]\n\n{cell_source}"
         return enhanced
@@ -81,14 +91,18 @@ def add_visual_summary(notebook_cells):
     Add a visual summary cell at the end if not present.
     """
     # Check if last few cells have a summary
-    has_summary = any('Key Takeaway' in str(cell.get('source', '')) or 'Summary' in str(cell.get('source', ''))
-                     for cell in notebook_cells[-5:] if cell['cell_type'] == 'markdown')
+    has_summary = any(
+        "Key Takeaway" in str(cell.get("source", ""))
+        or "Summary" in str(cell.get("source", ""))
+        for cell in notebook_cells[-5:]
+        if cell["cell_type"] == "markdown"
+    )
 
     if not has_summary:
         summary_cell = {
-            'cell_type': 'markdown',
-            'metadata': {},
-            'source': """## 📌 Key Takeaways
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": """## 📌 Key Takeaways
 
 ### Main Concepts
 
@@ -109,7 +123,7 @@ Before moving on, can you:
 - [ ] Identify when to use [approach 3]?
 
 If you checked all boxes: Great! You're ready for the next week.
-If not: Review the sections you're unsure about."""
+If not: Review the sections you're unsure about.""",
         }
         return summary_cell
 
@@ -123,7 +137,7 @@ def enhance_notebook(notebook_path):
     print(f"Enhancing: {notebook_path.name}")
 
     # Read notebook
-    with open(notebook_path, 'r', encoding='utf-8') as f:
+    with open(notebook_path, "r", encoding="utf-8") as f:
         nb = nbformat.read(f, as_version=4)
 
     # Track changes
@@ -131,11 +145,11 @@ def enhance_notebook(notebook_path):
 
     # Enhance each cell
     for cell in nb.cells:
-        original_source = cell['source']
+        original_source = cell["source"]
 
-        if cell['cell_type'] == 'markdown':
-            cell['source'] = enhance_markdown_cell(cell['source'])
-            if cell['source'] != original_source:
+        if cell["cell_type"] == "markdown":
+            cell["source"] = enhance_markdown_cell(cell["source"])
+            if cell["source"] != original_source:
                 changes += 1
 
         # Note: We're being conservative with code cells
@@ -149,13 +163,16 @@ def enhance_notebook(notebook_path):
     # Add summary if missing
     summary = add_visual_summary(nb.cells)
     if summary:
-        nb.cells.append(nbformat.v4.new_markdown_cell(summary['source']))
+        nb.cells.append(nbformat.v4.new_markdown_cell(summary["source"]))
         changes += 1
 
     # Write enhanced notebook
     if changes > 0:
-        output_path = notebook_path.parent / f"{notebook_path.stem}_enhanced{notebook_path.suffix}"
-        with open(output_path, 'w', encoding='utf-8') as f:
+        output_path = (
+            notebook_path.parent
+            / f"{notebook_path.stem}_enhanced{notebook_path.suffix}"
+        )
+        with open(output_path, "w", encoding="utf-8") as f:
             nbformat.write(nb, f)
         print(f"  ✅ Made {changes} enhancements → {output_path.name}")
         return True
@@ -167,14 +184,14 @@ def enhance_notebook(notebook_path):
 def main():
     # Get notebooks directory
     script_dir = Path(__file__).parent
-    notebooks_dir = script_dir.parent / 'notebooks'
+    notebooks_dir = script_dir.parent / "notebooks"
 
     if not notebooks_dir.exists():
         print(f"Error: {notebooks_dir} not found")
         sys.exit(1)
 
     # Find all notebooks
-    notebooks = sorted(notebooks_dir.glob('week*.ipynb'))
+    notebooks = sorted(notebooks_dir.glob("week*.ipynb"))
 
     if not notebooks:
         print(f"No notebooks found in {notebooks_dir}")
@@ -188,7 +205,7 @@ def main():
             enhanced_count += 1
         print()
 
-    print("="*60)
+    print("=" * 60)
     print(f"Enhancement complete!")
     print(f"Enhanced {enhanced_count}/{len(notebooks)} notebooks")
     print("\nNote: This script applies automatic enhancements.")
@@ -200,5 +217,5 @@ def main():
     print("\nSee docs/notebook_enhancements_example.md for patterns.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
