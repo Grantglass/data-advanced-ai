@@ -22,12 +22,13 @@ def calculate_bleu(reference: str, candidate: str, n: int = 4) -> float:
     Returns:
         float: BLEU score (0-1)
     """
+
     def get_ngrams(text: str, n: int) -> Counter:
         words = text.lower().split()
-        return Counter([tuple(words[i:i+n]) for i in range(len(words)-n+1)])
+        return Counter([tuple(words[i : i + n]) for i in range(len(words) - n + 1)])
 
     scores = []
-    for i in range(1, n+1):
+    for i in range(1, n + 1):
         ref_ngrams = get_ngrams(reference, i)
         cand_ngrams = get_ngrams(candidate, i)
 
@@ -49,7 +50,7 @@ def calculate_bleu(reference: str, candidate: str, n: int = 4) -> float:
     ref_len = len(reference.split())
     cand_len = len(candidate.split())
     if cand_len < ref_len:
-        bp = np.exp(1 - ref_len/cand_len)
+        bp = np.exp(1 - ref_len / cand_len)
     else:
         bp = 1.0
 
@@ -68,6 +69,7 @@ def calculate_rouge(reference: str, candidate: str, variant: str = "rouge-1") ->
     Returns:
         float: ROUGE score (0-1)
     """
+
     def get_tokens(text: str) -> List[str]:
         return text.lower().split()
 
@@ -77,10 +79,10 @@ def calculate_rouge(reference: str, candidate: str, variant: str = "rouge-1") ->
 
         for i in range(1, m + 1):
             for j in range(1, n + 1):
-                if seq1[i-1] == seq2[j-1]:
-                    dp[i][j] = dp[i-1][j-1] + 1
+                if seq1[i - 1] == seq2[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1] + 1
                 else:
-                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
 
         return dp[m][n]
 
@@ -125,6 +127,7 @@ def calculate_similarity(text1: str, text2: str, method: str = "jaccard") -> flo
     Returns:
         float: Similarity score (0-1)
     """
+
     def tokenize(text: str) -> set:
         return set(text.lower().split())
 
@@ -156,8 +159,7 @@ def calculate_similarity(text1: str, text2: str, method: str = "jaccard") -> flo
 
 
 def create_evaluation_report(
-    results: List[Dict],
-    metrics: List[str] = ["bleu", "rouge-1", "rouge-l"]
+    results: List[Dict], metrics: List[str] = ["bleu", "rouge-1", "rouge-l"]
 ) -> Dict:
     """
     Create a comprehensive evaluation report.
@@ -172,10 +174,7 @@ def create_evaluation_report(
     if not results:
         return {}
 
-    report = {
-        "num_samples": len(results),
-        "metrics": {}
-    }
+    report = {"num_samples": len(results), "metrics": {}}
 
     # Calculate statistics for each metric
     for metric in metrics:
@@ -187,13 +186,15 @@ def create_evaluation_report(
                 "median": np.median(values),
                 "std": np.std(values),
                 "min": np.min(values),
-                "max": np.max(values)
+                "max": np.max(values),
             }
 
     # Add best and worst performing samples
     if results and any(metrics):
         primary_metric = metrics[0]
-        sorted_results = sorted(results, key=lambda x: x.get(primary_metric, 0), reverse=True)
+        sorted_results = sorted(
+            results, key=lambda x: x.get(primary_metric, 0), reverse=True
+        )
 
         report["best_sample"] = sorted_results[0] if sorted_results else None
         report["worst_sample"] = sorted_results[-1] if sorted_results else None
@@ -202,9 +203,7 @@ def create_evaluation_report(
 
 
 def evaluate_multiple_outputs(
-    reference: str,
-    candidates: Dict[str, str],
-    metrics: Optional[List[str]] = None
+    reference: str, candidates: Dict[str, str], metrics: Optional[List[str]] = None
 ) -> Dict[str, Dict]:
     """
     Evaluate multiple candidate outputs against a reference.

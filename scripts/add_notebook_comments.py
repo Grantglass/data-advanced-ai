@@ -7,11 +7,12 @@ Focuses on code cells that need detailed explanations for MBA students.
 import json
 import sys
 
+
 def add_week2_remaining_comments():
     """Add comments to remaining Week 2 cells."""
     notebook_path = "/home/user/data-advanced-ai/notebooks/week02_advanced_prompting_1_enhanced.ipynb"
 
-    with open(notebook_path, 'r') as f:
+    with open(notebook_path, "r") as f:
         content = f.read()
 
     # Cell 20: Complex CoT Decision Analysis - add header comment
@@ -44,19 +45,21 @@ Decision: Should we implement AI-powered inventory management?"""
         content = content.replace(cell_20_old, cell_20_new)
         print("✅ Added comments to Week 2, Cell 20")
 
-    with open(notebook_path, 'w') as f:
+    with open(notebook_path, "w") as f:
         f.write(content)
+
 
 def main():
     """Main execution."""
     print("Adding educational comments to remaining notebooks...")
-    print("="*70)
+    print("=" * 70)
 
     # Week 2 remaining cells
     add_week2_remaining_comments()
 
-    print("="*70)
+    print("=" * 70)
     print("✅ Week 2 comments complete!")
+
 
 if __name__ == "__main__":
     main()

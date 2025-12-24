@@ -29,22 +29,20 @@ def load_sample_data(dataset_name: str, data_dir: str = "data/samples") -> pd.Da
     base_path = Path(__file__).parent.parent / data_dir
     file_path = base_path / dataset_name
 
-    if dataset_name.endswith('.csv'):
+    if dataset_name.endswith(".csv"):
         return pd.read_csv(file_path)
-    elif dataset_name.endswith('.json'):
-        with open(file_path, 'r') as f:
+    elif dataset_name.endswith(".json"):
+        with open(file_path, "r") as f:
             data = json.load(f)
             return pd.DataFrame(data)
-    elif dataset_name.endswith('.xlsx'):
+    elif dataset_name.endswith(".xlsx"):
         return pd.read_excel(file_path)
     else:
         raise ValueError(f"Unsupported file format: {dataset_name}")
 
 
 def save_results(
-    data: Union[pd.DataFrame, Dict, List],
-    filename: str,
-    output_dir: str = "outputs"
+    data: Union[pd.DataFrame, Dict, List], filename: str, output_dir: str = "outputs"
 ) -> str:
     """
     Save results to file.
@@ -62,14 +60,14 @@ def save_results(
     file_path = base_path / filename
 
     if isinstance(data, pd.DataFrame):
-        if filename.endswith('.csv'):
+        if filename.endswith(".csv"):
             data.to_csv(file_path, index=False)
-        elif filename.endswith('.xlsx'):
+        elif filename.endswith(".xlsx"):
             data.to_excel(file_path, index=False)
-        elif filename.endswith('.json'):
-            data.to_json(file_path, orient='records', indent=2)
+        elif filename.endswith(".json"):
+            data.to_json(file_path, orient="records", indent=2)
     elif isinstance(data, (dict, list)):
-        with open(file_path, 'w') as f:
+        with open(file_path, "w") as f:
             json.dump(data, f, indent=2)
     else:
         raise ValueError(f"Unsupported data type: {type(data)}")
@@ -78,9 +76,7 @@ def save_results(
 
 
 def display_dataframe(
-    df: pd.DataFrame,
-    max_rows: int = 10,
-    style: bool = True
+    df: pd.DataFrame, max_rows: int = 10, style: bool = True
 ) -> Union[pd.DataFrame, pd.io.formats.style.Styler]:
     """
     Display DataFrame with nice formatting.
@@ -96,17 +92,24 @@ def display_dataframe(
     display_df = df.head(max_rows)
 
     if style:
-        return display_df.style.set_properties(**{
-            'background-color': '#f9f9f9',
-            'border-color': 'black',
-            'border-width': '1px'
-        }).set_table_styles([
-            {'selector': 'th', 'props': [
-                ('background-color', '#4CAF50'),
-                ('color', 'white'),
-                ('font-weight', 'bold')
-            ]}
-        ])
+        return display_df.style.set_properties(
+            **{
+                "background-color": "#f9f9f9",
+                "border-color": "black",
+                "border-width": "1px",
+            }
+        ).set_table_styles(
+            [
+                {
+                    "selector": "th",
+                    "props": [
+                        ("background-color", "#4CAF50"),
+                        ("color", "white"),
+                        ("font-weight", "bold"),
+                    ],
+                }
+            ]
+        )
     else:
         return display_df
 
@@ -117,7 +120,7 @@ def create_comparison_chart(
     xlabel: str = "Category",
     ylabel: str = "Value",
     chart_type: str = "bar",
-    figsize: tuple = (10, 6)
+    figsize: tuple = (10, 6),
 ) -> plt.Figure:
     """
     Create a comparison chart from data.
@@ -142,21 +145,21 @@ def create_comparison_chart(
     if chart_type == "bar":
         # Simple bar chart
         categories = list(data.keys())
-        values = [sum(v)/len(v) if isinstance(v, list) else v for v in data.values()]
-        ax.bar(categories, values, color='#4CAF50', alpha=0.7)
+        values = [sum(v) / len(v) if isinstance(v, list) else v for v in data.values()]
+        ax.bar(categories, values, color="#4CAF50", alpha=0.7)
 
     elif chart_type == "grouped_bar":
         # Grouped bar chart
         df = pd.DataFrame(data)
-        df.plot(kind='bar', ax=ax, rot=0)
+        df.plot(kind="bar", ax=ax, rot=0)
 
     elif chart_type == "line":
         # Line chart
         for label, values in data.items():
-            ax.plot(values, marker='o', label=label, linewidth=2)
+            ax.plot(values, marker="o", label=label, linewidth=2)
         ax.legend()
 
-    ax.set_title(title, fontsize=14, fontweight='bold')
+    ax.set_title(title, fontsize=14, fontweight="bold")
     ax.set_xlabel(xlabel, fontsize=12)
     ax.set_ylabel(ylabel, fontsize=12)
     ax.grid(True, alpha=0.3)
@@ -165,10 +168,7 @@ def create_comparison_chart(
     return fig
 
 
-def create_evaluation_table(
-    results: List[Dict],
-    metrics: List[str]
-) -> pd.DataFrame:
+def create_evaluation_table(results: List[Dict], metrics: List[str]) -> pd.DataFrame:
     """
     Create a formatted evaluation results table.
 
@@ -183,19 +183,22 @@ def create_evaluation_table(
 
     # Select only specified metrics
     if metrics:
-        columns = [col for col in df.columns if col in metrics or col in ['name', 'model', 'method']]
+        columns = [
+            col
+            for col in df.columns
+            if col in metrics or col in ["name", "model", "method"]
+        ]
         df = df[columns]
 
     # Round numeric columns
-    numeric_cols = df.select_dtypes(include=['float64']).columns
+    numeric_cols = df.select_dtypes(include=["float64"]).columns
     df[numeric_cols] = df[numeric_cols].round(3)
 
     return df
 
 
 def calculate_summary_statistics(
-    df: pd.DataFrame,
-    group_by: Optional[str] = None
+    df: pd.DataFrame, group_by: Optional[str] = None
 ) -> pd.DataFrame:
     """
     Calculate summary statistics for a DataFrame.
@@ -207,11 +210,13 @@ def calculate_summary_statistics(
     Returns:
         DataFrame with summary statistics
     """
-    numeric_cols = df.select_dtypes(include=['number']).columns
+    numeric_cols = df.select_dtypes(include=["number"]).columns
 
     if group_by and group_by in df.columns:
-        summary = df.groupby(group_by)[numeric_cols].agg(['mean', 'median', 'std', 'min', 'max'])
+        summary = df.groupby(group_by)[numeric_cols].agg(
+            ["mean", "median", "std", "min", "max"]
+        )
     else:
-        summary = df[numeric_cols].agg(['mean', 'median', 'std', 'min', 'max']).T
+        summary = df[numeric_cols].agg(["mean", "median", "std", "min", "max"]).T
 
     return summary.round(2)

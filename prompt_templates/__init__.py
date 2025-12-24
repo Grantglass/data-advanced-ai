@@ -30,7 +30,7 @@ class PromptTemplate:
         template: str,
         variables: List[str],
         description: str = "",
-        examples: Optional[List[Dict]] = None
+        examples: Optional[List[Dict]] = None,
     ):
         self.name = name
         self.category = category
@@ -68,7 +68,7 @@ class PromptTemplate:
             "template": self.template,
             "variables": self.variables,
             "description": self.description,
-            "examples": self.examples
+            "examples": self.examples,
         }
 
     def to_json(self) -> str:
@@ -120,7 +120,8 @@ class PromptLibrary:
         """Search templates by keyword in name or description."""
         keyword = keyword.lower()
         return [
-            t for t in self.templates.values()
+            t
+            for t in self.templates.values()
             if keyword in t.name.lower() or keyword in t.description.lower()
         ]
 
